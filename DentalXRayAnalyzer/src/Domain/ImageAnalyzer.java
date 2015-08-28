@@ -16,35 +16,31 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.neuroph.imgrec.ImageRecognitionPlugin;
 import org.neuroph.imgrec.ImageSizeMismatchException;
+/*
+Class for performing all the logical and analytical operations
+*/
 public class ImageAnalyzer {
-
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String[] args) throws IOException {
-//
-//        // load trained neural network saved with Neuroph Studio (specify some existing neural network file here)
-//        NeuralNetwork nnet = NeuralNetwork.load("research_net.nnet"); // load trained neural network saved with Neuroph Studio
-//        // get the image recognition plugin from neural network
-//        ImageRecognitionPlugin imageRecognition = (ImageRecognitionPlugin) nnet.getPlugin(ImageRecognitionPlugin.class); // get the image recognition plugin from neural network
-//        HashMap<String, Double> output = imageRecognition.recognizeImage(new File("class_7.png"));
-//        System.out.println(output.toString());
-//    }
     
     String netPath;
      
+    //constructor gets path of the nural network file
      public ImageAnalyzer(String path){
-         this.netPath=path;
+         this.netPath=path; // set path of the neural network file to netPath
      }
+     
+     //method to get neural network object from the given path (selected neural network file)
      private NeuralNetwork loadNeuralNetwork(){
          return NeuralNetwork.load(netPath);
      }
-     private HashMap getResultSet(String imagePath){
+     
+     
+     public HashMap getResultSet(String imagePath){
          HashMap <String,Double>resultSet=null;
          NeuralNetwork nnet=loadNeuralNetwork();
          ImageRecognitionPlugin imageRecognition = (ImageRecognitionPlugin) nnet.getPlugin(ImageRecognitionPlugin.class); // get the image recognition plugin from neural network
@@ -52,12 +48,13 @@ public class ImageAnalyzer {
          ImageRecognitionPlugin irp=(ImageRecognitionPlugin)nnet.getPlugin(ImageRecognitionPlugin.class);
         try {
             resultSet=irp.recognizeImage(new File(imagePath));
+            
         } catch (IOException ex) {
             Logger.getLogger(ImageAnalyzer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ImageSizeMismatchException ex) {
             Logger.getLogger(ImageAnalyzer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        System.out.println("result set :"+resultSet.toString());
         return resultSet;
      }
     
@@ -66,17 +63,15 @@ public class ImageAnalyzer {
         int rating=0;
         
         Set list=resultSet.keySet();
-        String []array=(String[]) list.toArray();
+        Iterator i=list.iterator();
         double max=0;
-        String maxS;
-        for(String s:array){
-            double val=(double) resultSet.get(s);
+        
+        while(i.hasNext()){
+            Double val=(Double) resultSet.get(i.next());
             if(max<val){
                 max=val;
-                maxS=s;
             }
-        }
-        
+        }        
         return max;      
         
     }
