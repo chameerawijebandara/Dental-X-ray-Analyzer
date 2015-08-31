@@ -5,6 +5,8 @@
  */
 package View;
 
+import Access.Connector;
+import Access.Downloader;
 import Domain.ImageAnalyzer;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -34,8 +36,14 @@ public class Main extends javax.swing.JFrame {
     String imagePath;
     NeuralNetwork nnet;
     ImageAnalyzer imageAnalizer;
+    Downloader downloader;
+    Connector connector;
+    
     public Main() {
         initComponents();
+        
+        downloader=new Downloader();
+        connector=new Connector();
         jButton_loadImage.setEnabled(false);
         
     }
@@ -174,25 +182,30 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton_loadModelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_loadModelActionPerformed
         
-        JFileChooser fc=new JFileChooser();
-        FileFilter filter = new FileNameExtensionFilter("JPEG file", new String[] {"nnet"});
-        fc.setFileFilter(filter);
-        fc.addChoosableFileFilter(filter);
+//        JFileChooser fc=new JFileChooser();
+//        FileFilter filter = new FileNameExtensionFilter("JPEG file", new String[] {"nnet"});
+//        fc.setFileFilter(filter);
+//        fc.addChoosableFileFilter(filter);
+//        
+//        int returnVal=fc.showOpenDialog(null);
+//        if(returnVal==JFileChooser.APPROVE_OPTION){
+//            nnetPath=fc.getSelectedFile().getAbsolutePath();
+//            nnet=NeuralNetwork.load(nnetPath);
+//            jButton_loadImage.setEnabled(true);
+//        }        
+//        else{
+//            
+//        }
         
-        int returnVal=fc.showOpenDialog(null);
-        if(returnVal==JFileChooser.APPROVE_OPTION){
-            nnetPath=fc.getSelectedFile().getAbsolutePath();
-            nnet=NeuralNetwork.load(nnetPath);
+        boolean check=downloader.download_nnet();
+        if(check){
             jButton_loadImage.setEnabled(true);
-        }        
-        else{
-            
         }
     }//GEN-LAST:event_jButton_loadModelActionPerformed
 
     private void jButton_loadImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_loadImageActionPerformed
         // TODO add your handling code here:
-        imageAnalizer=new ImageAnalyzer(nnetPath);
+        imageAnalizer=new ImageAnalyzer();
         JFileChooser fc = new JFileChooser();
         int returnVal = fc.showOpenDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {

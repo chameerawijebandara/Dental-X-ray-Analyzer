@@ -27,11 +27,14 @@ Class for performing all the logical and analytical operations
 */
 public class ImageAnalyzer {
     
-    String netPath;
+    private final String netPath="neuralnetwork.nnet";
      
     //constructor gets path of the nural network file
      public ImageAnalyzer(String path){
-         this.netPath=path; // set path of the neural network file to netPath
+       //  this.netPath=path; // set path of the neural network file to netPath
+     }
+     public ImageAnalyzer(){
+         
      }
      
      //method to get neural network object from the given path (selected neural network file)
