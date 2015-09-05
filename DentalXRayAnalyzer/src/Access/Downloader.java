@@ -6,14 +6,24 @@
 package Access;
 
 import Access.DataHolder.Data;
+import Utilities.HttpDownloadUtility;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
+import java.util.ArrayList;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -21,76 +31,139 @@ import java.nio.charset.MalformedInputException;
  */
 public class Downloader {
 
-   
+    private String nnetFileName = null;
     private Connector connector = null;
+    private String modelVersion = null;
+    private ArrayList<String> nameList = null;
+    private ArrayList<DataSet> dataset = null;
 
     public Downloader() {
         connector = new Connector();
     }
 
     //method to download the neural network file (.nnet) from the server
-    public boolean download_nnet() {
-
-        int i;
+    public boolean download_nnet() throws JSONException, IOException {
+        String fileURL = getURL_model();
+        String saveDir = ".\\data\\model\\";
         try {
-
-            URLConnection con = connector.getConnection_nnet();
-            File file = new File(Data.fileName_nnet);
-
-            BufferedInputStream bis = new BufferedInputStream(con.getInputStream());
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file.getName()));
-
-            while ((i = bis.read()) != -1) {
-                bos.write(i);
-            }
-
-            bos.flush();
-            bis.close();
+            nnetFileName = HttpDownloadUtility.downloadFile(fileURL, saveDir);
+            File file=new File(".\\data\\model\\"+nnetFileName);
+            file.renameTo(new File(Data.filePath_downloadNnet));
             return true;
-
-        } catch (MalformedInputException malformedInputException) {
-
-            malformedInputException.printStackTrace();
-            return false;
-
-        } catch (IOException ioException) {
-
-            ioException.printStackTrace();
-            return false;
-
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
-        
+        return false;
     }
-    
-    //method to download fiels for the newsfeed from the server
-    public boolean download_news() {
+
+  
+
+    public String getURL_news() throws JSONException, IOException {
+        String url = null;
+        JSONObject json = readJsonFromUrl(Data.url_news_1);
+        System.out.println(json.toString());
+        // System.out.println(json.get("model"));
+        return url;
+    }
+
+    public ArrayList<DataSet> get_newsSet() throws JSONException, IOException {
+        ArrayList<DataSet> list = new ArrayList<DataSet>();
+        JSONObject json = readJsonFromUrl(Data.url_news_1);
+        System.out.println(json.toString());
+
+        int len = json.length();
         int i;
-        try {
-            URLConnection con = connector.getConnection_nnet();
-            File file = new File(Data.fileName_newsfeed);
+        for (i = 0; i < len; i++) {
+            JSONObject jObject = json.getJSONObject(Integer.toString(i));
+            String urlB = jObject.getString(Data.id_imageBefore);
+            String urlA = jObject.getString(Data.id_imageAfter);
+            String docName = jObject.getString(Data.id_doctorName);
+            String hosName = jObject.getString(Data.id_hospitalName);
+            String hosContact = jObject.getString(Data.id_hospitalContact);
 
-            BufferedInputStream bis = new BufferedInputStream(con.getInputStream());
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file.getName()));
+            DataSet ds = new DataSet(urlB, urlA, docName, hosName, hosContact);
+           // System.out.println("doc name :" + ds.getDoctorName());
+            list.add(ds);
+        }
 
-            while ((i = bis.read()) != -1) {
-                bos.write(i);
-            }
+        return list;
+    }
 
-            bos.flush();
-            bis.close();
-            return true;
+    public ArrayList<String> downloadImageSet() throws JSONException, IOException {
+        nameList = new ArrayList<String>();
+        dataset = get_newsSet();
 
-        } catch (MalformedInputException malformedInputException) {
+        int i;
+        for (i = 0; i < dataset.size(); i++) {
+            String nameA = downloadImage(dataset.get(i).getImageUrl_after());
+            String nameB = downloadImage(dataset.get(i).getImageUrl_before());
 
-            malformedInputException.printStackTrace();
-            return false;
+            nameList.add(nameB);
+            nameList.add(nameA);
 
-        } catch (IOException ioException) {
-
-            ioException.printStackTrace();
-            return false;
+            System.out.println("downloaded!!!!!");
 
         }
-        
+
+        return nameList;
+    }
+
+    public String downloadImage(String url) {
+        String name = null;
+        String saveDir = Data.filePath_downloadImage;
+        try {
+            name = HttpDownloadUtility.downloadFile(url, saveDir);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return name;
+    }
+
+    public String getURL_model() throws JSONException, IOException {
+        //String url ="http://nodejs-orthodontic.rhcloud.com";
+        String url = null;
+        JSONObject json = readJsonFromUrl(Data.url_nnet);
+        System.out.println(json.toString());
+        url = json.get("model").toString();
+        modelVersion = json.getString("version");
+        System.out.println(json.get("model"));
+        return url;
+    }
+
+    private static String readAll(Reader rd) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int cp;
+        while ((cp = rd.read()) != -1) {
+            sb.append((char) cp);
+        }
+        return sb.toString();
+    }
+
+    public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+        InputStream is = new URL(url).openStream();
+        try {
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            String jsonText = readAll(rd);
+            JSONObject json = new JSONObject(jsonText);
+            return json;
+        } finally {
+            is.close();
+        }
+    }
+
+    public String getFileName_nnet() {
+        return nnetFileName;
+    }
+
+    public String getModelVersion() {
+        return modelVersion;
+    }
+
+    public ArrayList<DataSet> getDataset() {
+        return dataset;
+    }
+
+    public ArrayList<String> getNameList() {
+        return nameList;
     }
 }

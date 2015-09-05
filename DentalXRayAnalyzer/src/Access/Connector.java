@@ -13,9 +13,12 @@ import java.net.URLConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 /**
  *
  * @author Minudika
+ * 
+ * This class handles accessing to the server and its files and directories
  */
 public class Connector {
     
@@ -24,9 +27,9 @@ public class Connector {
         URLConnection con=null;
         URL url=null;
         try {
-            url=new URL(Data.url_nnet);
+            url=new URL(Data.url_nnet); //url for neural network file in the server
             try {
-                con=url.openConnection();
+                con=url.openConnection(); //opening connection with the server
             } catch (IOException ex) {
                 Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -34,7 +37,7 @@ public class Connector {
         } catch (MalformedURLException ex) {
             Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return con;
+        return con; // return connection 
     }
     
     //method to get connection to the files for the news feed in the server
@@ -42,9 +45,9 @@ public class Connector {
         URLConnection con=null;
         URL url=null;
         try {
-            url=new URL(Data.url_news);
+            url=new URL(Data.url_news); //url for directory contains newsfeed items in the server
             try {
-                con=url.openConnection();
+                con=url.openConnection(); // opening connection with the server
             } catch (IOException ex) {
                 Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -52,7 +55,7 @@ public class Connector {
         } catch (MalformedURLException ex) {
             Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return con;
+        return con; // return conneciton
      }
     
 }
