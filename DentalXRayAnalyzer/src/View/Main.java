@@ -132,7 +132,7 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jLabel_displayImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel_displayImage, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -141,7 +141,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel_displayImage, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
+                .addComponent(jLabel_displayImage, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -583,7 +583,8 @@ public class Main extends javax.swing.JFrame {
 
     private void setImage(String path) throws IOException {
         BufferedImage bi = ImageIO.read(new File(path));
-        jLabel_displayImage.setIcon(new ImageIcon(bi));
+        Image scaledImg = bi.getScaledInstance(jLabel_displayImage.getWidth(), jLabel_displayImage.getHeight(), Image.SCALE_DEFAULT);
+        jLabel_displayImage.setIcon(new ImageIcon(scaledImg));
         jLabel_displayImage.setHorizontalAlignment(JLabel.CENTER);
         jLabel_displayImage.setVerticalAlignment(JLabel.CENTER);
     }
