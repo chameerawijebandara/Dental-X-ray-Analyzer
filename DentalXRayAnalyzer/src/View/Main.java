@@ -53,7 +53,15 @@ public class Main extends javax.swing.JFrame {
 
         downloader = new Downloader();
         connector = new Connector();
+        
         jButton_loadImage.setEnabled(true);
+        jButton_next.setEnabled(false);
+        jButton_prev.setEnabled(false);
+        
+        jLabel_txtDoctorName.setVisible(false);
+        jLabel_txtHospitalContact.setVisible(false);
+        jLabel_txtHospitalName.setVisible(false);
+        
         imageAnalizer = new ImageAnalyzer(Data.filePath_downloadNnet);
         
 
@@ -79,9 +87,9 @@ public class Main extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel_newsFeed_displayImageBefore = new javax.swing.JLabel();
         jLabel_newsFeed_displayImageAfter = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        jLabel_txtDoctorName = new javax.swing.JLabel();
+        jLabel_txtHospitalName = new javax.swing.JLabel();
+        jLabel_txtHospitalContact = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jButton_next = new javax.swing.JButton();
@@ -95,6 +103,7 @@ public class Main extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         jLabel_status = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -147,8 +156,12 @@ public class Main extends javax.swing.JFrame {
         jLabel_displayRating.setToolTipText("");
         jLabel_displayRating.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Rating");
 
+        jLabel_modelVersion.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setText("Model Version :");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -161,11 +174,11 @@ public class Main extends javax.swing.JFrame {
         jLabel_newsFeed_displayImageAfter.setText("No News Available");
         jLabel_newsFeed_displayImageAfter.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel3.setText("Doctor's Name          :");
+        jLabel_txtDoctorName.setText("Doctor's Name          :");
 
-        jLabel5.setText("Hospital Name          :");
+        jLabel_txtHospitalName.setText("Hospital Name          :");
 
-        jLabel6.setText("Hospital Contact No :");
+        jLabel_txtHospitalContact.setText("Hospital Contact No :");
 
         jLabel7.setText("Before");
 
@@ -198,9 +211,9 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jLabel8))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel_txtHospitalContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel_txtDoctorName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel_txtHospitalName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(10, 10, 10)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -237,13 +250,13 @@ public class Main extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel_doctorName, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
+                            .addComponent(jLabel_txtDoctorName))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel5))
+                        .addComponent(jLabel_txtHospitalName))
                     .addComponent(jLabel_hospitalName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel6)
+                    .addComponent(jLabel_txtHospitalContact)
                     .addComponent(jLabel_hospitalContact, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(67, 67, 67)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -257,14 +270,18 @@ public class Main extends javax.swing.JFrame {
         jProgressBar_rating.setMaximum(10);
         jProgressBar_rating.setToolTipText("");
 
-        jLabel10.setText("Bad");
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel10.setText("0");
 
-        jLabel11.setText("Good");
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel11.setText("10");
 
         jLabel_status.setToolTipText("status");
         jLabel_status.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel12.setText("Status");
+
+        jLabel3.setText("News Feed");
 
         jMenu1.setText("File");
 
@@ -303,12 +320,8 @@ public class Main extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(91, 91, 91)
-                                            .addComponent(jLabel_modelVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(jLabel1))
-                                    .addGap(267, 267, 267))
+                                    .addComponent(jLabel1)
+                                    .addGap(393, 393, 393))
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGap(80, 80, 80)))
@@ -324,35 +337,40 @@ public class Main extends javax.swing.JFrame {
                                 .addComponent(jProgressBar_rating, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel_status, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel12))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel_modelVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel_modelVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel4)
-                        .addGap(27, 27, 27))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel_modelVersion, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)))
-                .addComponent(jLabel1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel_displayRating, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton_loadImage))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton_loadImage)
+                                .addGap(24, 24, 24))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel_displayRating, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(11, 11, 11)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
                             .addComponent(jLabel11))
@@ -472,7 +490,7 @@ public class Main extends javax.swing.JFrame {
         setStatus("Updating model started..");
         try {
             check = downloader.download_nnet();
-            imageAnalizer = new ImageAnalyzer(downloader.getFileName_nnet());
+            imageAnalizer = new ImageAnalyzer(Data.filePath_downloadNnet);
             jLabel_modelVersion.setText(downloader.getModelVersion());
             
         } catch (JSONException ex) {
@@ -499,6 +517,25 @@ public class Main extends javax.swing.JFrame {
     public void setData(int cnt, String btnOption) {
         ArrayList<DataSet> dataset = downloader.getDataset();
         ArrayList<String> nameList = downloader.getNameList();
+        
+        if(dataset.size()==0){
+            jLabel_txtDoctorName.setVisible(false);
+            jLabel_txtHospitalContact.setVisible(false);
+            jLabel_txtHospitalName.setVisible(false);
+            
+            jButton_next.setEnabled(false);
+            jButton_prev.setEnabled(false);
+        }
+        else{
+            
+            jLabel_txtDoctorName.setVisible(true);
+            jLabel_txtHospitalContact.setVisible(true);
+            jLabel_txtHospitalName.setVisible(true);
+            
+            jButton_next.setEnabled(true);
+            jButton_prev.setEnabled(true);           
+            
+        }
         if (cnt < 0) {
             cnt = -1 * cnt;
         }
@@ -518,7 +555,7 @@ public class Main extends javax.swing.JFrame {
 
         jLabel_doctorName.setText(dataset.get(cnt).getDoctorName());
         jLabel_hospitalName.setText(dataset.get(cnt).getHospitalName());
-        jLabel_hospitalContact.setText(dataset.get(cnt).getHospitalName());
+        jLabel_hospitalContact.setText(dataset.get(cnt).getHospitalContact());
 
         String imageA = ".\\data\\newsSet\\" + nameList.get(2 * cnt);
         String imageB = ".\\data\\newsSet\\" + nameList.get(2 * cnt + 1);
@@ -604,8 +641,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -618,6 +653,9 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_newsFeed_displayImageAfter;
     private javax.swing.JLabel jLabel_newsFeed_displayImageBefore;
     private javax.swing.JLabel jLabel_status;
+    private javax.swing.JLabel jLabel_txtDoctorName;
+    private javax.swing.JLabel jLabel_txtHospitalContact;
+    private javax.swing.JLabel jLabel_txtHospitalName;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
