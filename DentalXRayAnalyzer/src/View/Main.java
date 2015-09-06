@@ -102,6 +102,7 @@ public class Main extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Dental XRay Image Analizer");
         setPreferredSize(new java.awt.Dimension(1280, 720));
         setResizable(false);
 
@@ -363,7 +364,7 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel_status, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(141, 141, 141))
+                .addGap(147, 147, 147))
         );
 
         pack();
