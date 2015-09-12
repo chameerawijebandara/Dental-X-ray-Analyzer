@@ -20,6 +20,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,31 +47,58 @@ public class Downloader {
     //method to download the neural network file (.nnet) from the server
     public boolean download_nnet() throws JSONException, IOException {
         String fileURL = getURL_model();
-        String saveDir = ".\\data\\model\\";
+        //String saveDir = ".\\data\\model\\";
         try {
-            nnetFileName = HttpDownloadUtility.downloadFile(fileURL, saveDir);
-            File file=new File(".\\data\\model\\"+nnetFileName);
+            nnetFileName = HttpDownloadUtility.downloadFile(fileURL, Data.directoryPath_downloadNnet);
+            File file=new File(Data.directoryPath_downloadNnet+nnetFileName);
             file.renameTo(new File(Data.filePath_downloadNnet));
             return true;
         } catch (IOException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
+            System.out.println(Data.error_modelDownloadFailed);
         }
         return false;
     }
 
   
 
-    public String getURL_news() throws JSONException, IOException {
+    public String getURL_news(int level) throws JSONException, IOException {
         String url = null;
-        JSONObject json = readJsonFromUrl(Data.url_news_1);
+        JSONObject json = null;
+        switch(level)
+        {
+            case 1:
+                json=readJsonFromUrl(Data.url_news_story1);
+                break;
+            case 2:
+                json=readJsonFromUrl(Data.url_news_story2);
+                break;
+            case 3:
+                json=readJsonFromUrl(Data.url_news_story3);
+                break;                
+        }
+        
         System.out.println(json.toString());
         // System.out.println(json.get("model"));
         return url;
     }
 
-    public ArrayList<DataSet> get_newsSet() throws JSONException, IOException {
+    public ArrayList<DataSet> get_newsSet(int level) throws JSONException, IOException {
         ArrayList<DataSet> list = new ArrayList<DataSet>();
-        JSONObject json = readJsonFromUrl(Data.url_news_1);
+        JSONObject json = null;
+        System.out.println(level);
+        switch(level){
+            case 1:
+                json=readJsonFromUrl(Data.url_news_story1);
+                break;
+            case 2:
+                json=readJsonFromUrl(Data.url_news_story2);
+                break;
+            case 3:
+                json=readJsonFromUrl(Data.url_news_story3);
+                break;
+        }
+        if(!json.equals(null))
         System.out.println(json.toString());
 
         int len = json.length();
@@ -88,11 +118,20 @@ public class Downloader {
 
         return list;
     }
+    
+    private int getLevelofImage(double rating){
+        int x=(int) (rating*100);
+        if(x>66)
+            return 3;
+        else if(x>33)
+            return 2;
+        else
+            return 1;
+    }
 
-    public ArrayList<String> downloadImageSet() throws JSONException, IOException {
+    public ArrayList<String> downloadImageSet(double rating) throws JSONException, IOException {
         nameList = new ArrayList<String>();
-        dataset = get_newsSet();
-
+        dataset = get_newsSet(getLevelofImage(rating));
         int i;
         for (i = 0; i < dataset.size(); i++) {
             String nameA = downloadImage(dataset.get(i).getImageUrl_after());
@@ -102,9 +141,7 @@ public class Downloader {
             nameList.add(nameA);
 
             System.out.println("downloaded!!!!!");
-
         }
-
         return nameList;
     }
 
@@ -114,7 +151,8 @@ public class Downloader {
         try {
             name = HttpDownloadUtility.downloadFile(url, saveDir);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
+            System.out.println(Data.error_downloadingImage);
         }
         return name;
     }
@@ -149,6 +187,14 @@ public class Downloader {
         } finally {
             is.close();
         }
+    }
+    
+    public void createDirectories() throws IOException{
+        Path path_nnet=Paths.get(Data.directoryPath_downloadNnet);
+        Path path_news=Paths.get(Data.directoryPath_downloadNews );
+        Files.createDirectories(path_nnet);
+        Files.createDirectories(path_news);
+        System.out.println("created");
     }
 
     public String getFileName_nnet() {

@@ -9,17 +9,21 @@ package Domain;
  *
  * @author Minudika
  */
+import Access.DataHolder;
+import Access.DataHolder.Data;
 import org.neuroph.core.NeuralNetwork;
 
 import java.util.HashMap;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import org.neuroph.imgrec.ImageRecognitionPlugin;
 import org.neuroph.imgrec.ImageSizeMismatchException;
 /*
@@ -55,8 +59,10 @@ public class ImageAnalyzer {
             resultSet=irp.recognizeImage(new File(imagePath)); // get result set for the given image 
             
         } catch (IOException ex) {
-            Logger.getLogger(ImageAnalyzer.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(ImageAnalyzer.class.getName()).log(Level.SEVERE, null, ex);
+            
         } catch (ImageSizeMismatchException ex) {
+            
             Logger.getLogger(ImageAnalyzer.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("result set :"+resultSet.toString()); // print the result set to the console as a string
@@ -67,7 +73,7 @@ public class ImageAnalyzer {
     public double getRating(String imagePath){
         HashMap resultSet=getResultSet(imagePath); // getting result set provided by the neuralnetwork
         int rating=0;
-        
+        DecimalFormat df = new DecimalFormat("#0.00");
         Set list=resultSet.keySet(); // keep key values of the resultSet hashmap in a set
         Iterator i=list.iterator(); // iterator for moving through the set elemets
         double max=0; // variable to keep the max value for the rating
@@ -79,6 +85,6 @@ public class ImageAnalyzer {
                 max=val; // attempt to get the max result set value for the rating
             }
         }        
-        return max;   // return the max value.This value is taking to calculate  rating for the image        
+        return Double.parseDouble(df.format(max));   // return the max value.This value is taking to calculate  rating for the image        
     }
 }
