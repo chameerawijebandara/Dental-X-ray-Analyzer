@@ -73,13 +73,13 @@ public class ImageAnalyzer {
     public double getRating(String imagePath){
         HashMap resultSet=getResultSet(imagePath); // getting result set provided by the neuralnetwork
         int rating=0;
-        DecimalFormat df = new DecimalFormat("#0.00");
+        DecimalFormat df = new DecimalFormat("#0.00000");
         Set list=resultSet.keySet(); // keep key values of the resultSet hashmap in a set
         Iterator i=list.iterator(); // iterator for moving through the set elemets
         double max=0; // variable to keep the max value for the rating
         
         //going through the result set
-        while(i.hasNext()){
+        if(i.hasNext()){
             Double val=(Double) resultSet.get(i.next());
             if(max<val){
                 max=val; // attempt to get the max result set value for the rating

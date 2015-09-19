@@ -72,7 +72,7 @@ public class Main extends javax.swing.JFrame {
             Object[] options = {"Yes",
                 "No"};
             int choice = JOptionPane.showOptionDialog(null, Data.message_modelNotFoundatLocal, "Error", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
-            
+
             if (choice == 0) {
                 try {
                     System.out.println(Data.modelUpdating);
@@ -91,10 +91,9 @@ public class Main extends javax.swing.JFrame {
                 }
             }
 
-        }
-        
-        else
+        } else {
             jButton_loadImage.setEnabled(true);
+        }
 
         imageAnalizer = new ImageAnalyzer(Data.filePath_downloadNnet);
         try {
@@ -149,6 +148,7 @@ public class Main extends javax.swing.JFrame {
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Dental XRay Image Analizer");
@@ -342,6 +342,14 @@ public class Main extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem4);
 
+        jMenuItem1.setText("SURF Match");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -431,9 +439,9 @@ public class Main extends javax.swing.JFrame {
         JFileChooser fc = new JFileChooser();
         Double rating;
         fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fc.addChoosableFileFilter(new FileNameExtensionFilter("JPEG files", "jpeg","jpg"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("JPEG files", "jpeg", "jpg"));
         fc.addChoosableFileFilter(new FileNameExtensionFilter("PNG files", "png", "PNG"));
-        fc.addChoosableFileFilter(new FileNameExtensionFilter("BMP files","bmp","BMP"));
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("BMP files", "bmp", "BMP"));
         fc.setAcceptAllFileFilterUsed(true);
         int returnVal = fc.showOpenDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -538,6 +546,15 @@ public class Main extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        try {
+            // TODO add your handling code here:
+            Runtime.getRuntime().exec("./Release/SURF.exe", null);
+        } catch (Exception e) {
+
+        }
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     private void setStatus(String s) {
         jLabel_status.setText(s);
     }
@@ -592,32 +609,35 @@ public class Main extends javax.swing.JFrame {
 
         System.out.println("dataset size :" + dataset.size());
 
-        jLabel_doctorName.setText(dataset.get(cnt).getDoctorName());
-        jLabel_hospitalName.setText(dataset.get(cnt).getHospitalName());
-        jLabel_hospitalContact.setText(dataset.get(cnt).getHospitalContact());
+        if (dataset.size() > 1) {
+            jLabel_doctorName.setText(dataset.get(cnt).getDoctorName());
 
-        String imageA = Data.directoryPath_downloadNews + nameList.get(2 * cnt);
-        String imageB = Data.directoryPath_downloadNews + nameList.get(2 * cnt + 1);
-        System.out.println(imageA);
+            jLabel_hospitalName.setText(dataset.get(cnt).getHospitalName());
+            jLabel_hospitalContact.setText(dataset.get(cnt).getHospitalContact());
 
-        File imageFileA = new File(imageA);
-        File imageFileB = new File(imageB);
+            String imageA = Data.directoryPath_downloadNews + nameList.get(2 * cnt);
+            String imageB = Data.directoryPath_downloadNews + nameList.get(2 * cnt + 1);
+            System.out.println(imageA);
 
-        BufferedImage bufImgA = null;
-        BufferedImage bufImgB = null;
+            File imageFileA = new File(imageA);
+            File imageFileB = new File(imageB);
 
-        try {
-            bufImgA = ImageIO.read(imageFileA);
-            bufImgB = ImageIO.read(imageFileB);
-        } catch (IOException e) {
-            e.printStackTrace();
+            BufferedImage bufImgA = null;
+            BufferedImage bufImgB = null;
+
+            try {
+                bufImgA = ImageIO.read(imageFileA);
+                bufImgB = ImageIO.read(imageFileB);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Image scaledImgA = bufImgA.getScaledInstance(jLabel_newsFeed_displayImageAfter.getWidth(), jLabel_newsFeed_displayImageAfter.getHeight(), Image.SCALE_DEFAULT);
+            Image scaledImgB = bufImgB.getScaledInstance(jLabel_newsFeed_displayImageBefore.getWidth(), jLabel_newsFeed_displayImageBefore.getHeight(), Image.SCALE_DEFAULT);
+
+            jLabel_newsFeed_displayImageAfter.setIcon(new ImageIcon(scaledImgA));
+            jLabel_newsFeed_displayImageBefore.setIcon(new ImageIcon(scaledImgB));
         }
-
-        Image scaledImgA = bufImgA.getScaledInstance(jLabel_newsFeed_displayImageAfter.getWidth(), jLabel_newsFeed_displayImageAfter.getHeight(), Image.SCALE_DEFAULT);
-        Image scaledImgB = bufImgB.getScaledInstance(jLabel_newsFeed_displayImageBefore.getWidth(), jLabel_newsFeed_displayImageBefore.getHeight(), Image.SCALE_DEFAULT);
-
-        jLabel_newsFeed_displayImageAfter.setIcon(new ImageIcon(scaledImgA));
-        jLabel_newsFeed_displayImageBefore.setIcon(new ImageIcon(scaledImgB));
     }
 
     private void setImage(String path) throws IOException {
@@ -703,6 +723,7 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;

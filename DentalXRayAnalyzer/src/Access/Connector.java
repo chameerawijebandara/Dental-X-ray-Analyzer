@@ -45,14 +45,13 @@ public class Connector {
         URLConnection con=null;
         URL url=null;
         try {
-            url=new URL(Data.url_news); //url for directory contains newsfeed items in the server
-            try {
-                con=url.openConnection(); // opening connection with the server
-            } catch (IOException ex) {
-                Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+            url=new URL(Data.url_news_story1);
         } catch (MalformedURLException ex) {
+            Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            con=url.openConnection(); // opening connection with the server
+        } catch (IOException ex) {
             Logger.getLogger(Connector.class.getName()).log(Level.SEVERE, null, ex);
         }
         return con; // return conneciton
